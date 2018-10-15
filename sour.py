@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import csv
 import datetime
 import dateutil.relativedelta
 import shade
@@ -33,6 +34,14 @@ def get_usage(cloud, projects, end=now, start=now + dateutil.relativedelta.relat
             usage[project].update(cloud.get_project(project))
     return usage
 
+def output_csv(usage):
+    fieldnames = ['name', 'total_hours', 'total_memory_mb_usage'] + args.property
+    writer = csv.DictWriter(sys.stdout, fieldnames=fieldnames, extrasaction='ignore')
+
+    writer.writeheader()
+    for v in usage.values():
+        writer.writerow(v)
+
 def output(usage):
     output_template = "Project: {name}, total_hours: {total_hours}, total_memory_mb_usage: {total_memory_mb_usage}"
     for property in args.property:
@@ -51,6 +60,7 @@ def main():
     parser.add_argument('-s', '--start', help='start_time', required=False)
     parser.add_argument('-e', '--end', help='end_time', required=False)
     parser.add_argument('--property', help='project property', required=False, action='append', default=[])
+    parser.add_argument('--csv', help='format output as CSV', required=False, action='store_const', const=output_csv, dest='format', default=output)
 
     try:
         args = parser.parse_args()
@@ -60,7 +70,7 @@ def main():
         else:
             projects = [args.project]
         usage = get_usage(cloud, projects)
-        output(usage)
+        args.format(usage)
     except Exception as e:
         raise Usage(e)
 
