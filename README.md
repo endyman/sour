@@ -12,6 +12,7 @@
 
 ```./sour.py -h                                                         [✓][101s](git)-[master][]
 usage: sour.py [-h] [-v] -c CLOUD [-p PROJECT] [-s START] [-e END]
+               [--property PROPERTY] [--csv]
 
 Process args
 
@@ -25,4 +26,6 @@ optional arguments:
   -s START, --start START
                         start_time
   -e END, --end END     end_time
+  --property PROPERTY   project property
+  --csv                 format output as CSV
 ```

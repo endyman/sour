@@ -48,7 +48,7 @@ def output(usage):
         output_template += ", {0}: {{{0}}}".format(property)
 
     for v in usage.values():
-        print output_template.format(**v.toDict())
+        print(output_template.format(**v.toDict()))
 
 def main():
     global args
