@@ -5,7 +5,7 @@ import argparse
 import csv
 import datetime
 import dateutil.relativedelta
-import shade
+import openstack
 import sys
 
 args = None
@@ -16,7 +16,7 @@ class Usage(Exception):
         self.msg = msg
 
 def get_cloud(cloudname):
-    cloud = shade.openstack_cloud(cloud=cloudname)
+    cloud = openstack.connect(cloud=cloudname)
     return cloud
 
 def get_projects(cloud):
